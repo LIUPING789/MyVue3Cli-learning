@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        //原数数
+        let person = {
+            name: '张三',
+            age: 18
+        }
+        //模拟Vue2中实现响应式
+        //#region
+        /*
+        let p = {}
+        Object.defineProperty(p, 'name', {
+            configurable: true,
+            //有人读取name时调用
+            get() {
+                return person.name
+            },
+            //有人修改name时调用
+            set(value) {
+                person.name = value
+                console.log('有人修改了name属性，我发现了，我要去更新界面！')
+            }
+        })
+     */
+
+        //#endregion
+
+        //Vue3 中的响应式 
+        const proxy = new Proxy(person, {
+            get(target, propName) {
+                console.log(`有人读了了proxy身上的${propName}属性`)
+                return Reflect.get(target,propName)
+            },
+            set(target, propName, value) {
+                console.log(`有人修改了proxy身上的${propName}属性,我要去更新界面了！`)
+                Reflect.set(target, propName, value)
+            },
+            defineProperty(target, propName) {
+                console.log(`有人删除了proxy身上的${propName}属性,我要去更新界面了！`)
+                return Reflect.defineProperty(target, propName)
+            }
+        })
+
+
+    </script>
+
+</body>
+
+</html>
