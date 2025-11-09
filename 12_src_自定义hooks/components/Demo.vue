@@ -21,7 +21,6 @@ export default {
         let sum = ref(0)
         //接收hooks 数据
         let point = uesPoint()
-
         return {
             sum,
             point
